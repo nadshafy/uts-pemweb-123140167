@@ -1,9 +1,19 @@
 import React from 'react';
 
-const Playlist = ({ playlist, removeFromPlaylist }) => {
+const Playlist = ({ playlist, removeFromPlaylist, clearPlaylist }) => {
   return (
     <aside>
       <h2>Playlist Saya</h2>
+      
+      {playlist.length > 0 && (
+        <button 
+          onClick={clearPlaylist} 
+          style={{ marginBottom: '15px' }}
+        >
+          Kosongkan Playlist
+        </button>
+      )}
+
       {playlist.length === 0 ? (
         <p>Playlist Anda kosong.</p>
       ) : (
@@ -11,7 +21,6 @@ const Playlist = ({ playlist, removeFromPlaylist }) => {
           {playlist.map((track) => (
             <li key={track.trackId}>
               {track.trackName} - {track.artistName}
-              
               <button 
                 onClick={() => removeFromPlaylist(track.trackId)}
                 style={{ marginLeft: '10px' }}

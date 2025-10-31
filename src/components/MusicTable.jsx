@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MusicTable = ({ results, loading, error, addToPlaylist }) => {
+const MusicTable = ({ results, loading, error, addToPlaylist, onTrackClick }) => {
 
   if (loading) {
     return <p>Loading data...</p>;
@@ -32,7 +32,14 @@ const MusicTable = ({ results, loading, error, addToPlaylist }) => {
             <td>
               <img src={item.artworkUrl100} alt={item.trackName} />
             </td>
-            <td>{item.trackName}</td>
+            
+            <td 
+              onClick={() => onTrackClick(item)} 
+              style={{ cursor: 'pointer', color: 'blue' }} 
+            >
+              {item.trackName}
+            </td>
+            
             <td>{item.artistName}</td>
             <td>{item.trackPrice} {item.currency}</td>
             <td>

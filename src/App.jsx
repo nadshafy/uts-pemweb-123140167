@@ -45,6 +45,10 @@ function App() {
     setPlaylist(playlist.filter((track) => track.trackId !== trackIdToRemove));
   };
 
+  const clearPlaylist = () => {
+    setPlaylist([]); 
+  };
+
   useEffect(() => {
     const savedPlaylist = localStorage.getItem('myPlaylist');
     if (savedPlaylist) {
@@ -87,12 +91,14 @@ function App() {
             loading={loading}
             error={error}
             addToPlaylist={addToPlaylist}
+            onTrackClick={setSelectedTrack}
           />
         </div>
         <div className="playlist-container">
           <Playlist 
             playlist={playlist}
             removeFromPlaylist={removeFromPlaylist}
+            clearPlaylist={clearPlaylist}
           />
         </div>
       </main>
