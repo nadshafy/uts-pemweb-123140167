@@ -9,35 +9,41 @@ import './App.css';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [mediaType, setMediaType] = useState('musicTrack');
-
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [playlist, setPlaylist] = useState([]);
-
   const [sortKey, setSortKey] = useState('');
-
   const [selectedTrack, setSelectedTrack] = useState(null);
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) {
+      setResults([]);
       return;
     }
+
     setLoading(true);
     setError(null);
+
+    let entity = '';
+    if (mediaType === 'musicTrack') entity = 'musicTrack';
+    else if (mediaType === 'album') entity = 'album';
+    else if (mediaType === 'musicArtist') entity = 'musicArtist';
+
     try {
       const response = await fetch(
-        `https://itunes.apple.com/search?term=${searchTerm}&media=${mediaType}&limit=20`
+        `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=music&entity=${entity}&limit=20`
       );
       if (!response.ok) {
-        throw new Error('Gagal mengambil data');
+        throw new Error(`Gagal mengambil data (status ${response.status})`);
       }
       const data = await response.json();
-      setResults(data.results);
+      setResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
       setError(err);
+      setResults([]);
     }
+
     setLoading(false);
   };
 
@@ -52,7 +58,7 @@ function App() {
   };
 
   const clearPlaylist = () => {
-    setPlaylist([]); 
+    setPlaylist([]);
   };
 
   const closeModal = () => {
@@ -64,22 +70,21 @@ function App() {
     if (savedPlaylist) {
       setPlaylist(JSON.parse(savedPlaylist));
     }
-  }, []); 
-  
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('myPlaylist', JSON.stringify(playlist));
-  }, [playlist]); 
+  }, [playlist]);
 
   const sortedResults = [...results].sort((a, b) => {
     if (sortKey === 'price') {
-      return a.trackPrice - b.trackPrice;
+      return (a.trackPrice || 0) - (b.trackPrice || 0);
     }
     if (sortKey === 'date') {
       return new Date(b.releaseDate) - new Date(a.releaseDate);
     }
     return 0;
   });
-
 
   return (
     <div className="App">
@@ -90,14 +95,18 @@ function App() {
         mediaType={mediaType}
         setMediaType={setMediaType}
         handleSearch={handleSearch}
+        loading={loading}
       />
       <hr />
       <SortControls setSortKey={setSortKey} />
       <hr />
       <main>
         <div className="results-container">
+          {loading && <p>Loading...</p>}
+          {error && <p>{error.message}</p>}
+          {!loading && !error && results.length === 0 && searchTerm && <p>No results found</p>}
           <MusicTable
-            results={sortedResults} 
+            results={sortedResults}
             loading={loading}
             error={error}
             addToPlaylist={addToPlaylist}
@@ -105,24 +114,16 @@ function App() {
           />
         </div>
         <div className="playlist-container">
-          <Playlist 
+          <Playlist
             playlist={playlist}
             removeFromPlaylist={removeFromPlaylist}
             clearPlaylist={clearPlaylist}
           />
         </div>
       </main>
-
-      {selectedTrack && (
-        <DetailModal 
-          track={selectedTrack} 
-          onClose={closeModal} 
-        />
-      )}
-
+      {selectedTrack && <DetailModal track={selectedTrack} onClose={closeModal} />}
     </div>
   );
 }
 
 export default App;
-

@@ -1,10 +1,9 @@
 import React from 'react';
 
-const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handleSearch }) => {
-
+const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handleSearch, loading }) => {
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSearch(); 
+    handleSearch();
   };
 
   return (
@@ -14,7 +13,7 @@ const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handle
         placeholder="Cari artis, lagu, album..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        required 
+        required
       />
       <select
         value={mediaType}
@@ -24,7 +23,9 @@ const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handle
         <option value="album">Album</option>
         <option value="musicArtist">Artis</option>
       </select>
-      <button type="submit">Cari</button>
+      <button type="submit" disabled={loading}>
+        {loading ? 'Mencari...' : 'Cari'}
+      </button>
     </form>
   );
 };
