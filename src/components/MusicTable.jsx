@@ -3,7 +3,11 @@ import React from 'react';
 const MusicTable = ({ results, loading, error, addToPlaylist, onTrackClick }) => {
 
   if (loading) {
-    return <p>Loading data...</p>;
+    return <div className="loading-container">
+     <div className="loading-dot"></div>
+     <div className="loading-dot"></div>
+     <div className="loading-dot"></div>
+   </div>
   }
 
   if (error) {

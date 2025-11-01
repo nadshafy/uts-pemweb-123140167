@@ -3,6 +3,7 @@ import SearchForm from './components/SearchForm';
 import MusicTable from './components/MusicTable';
 import SortControls from './components/SortControls';
 import Playlist from './components/Playlist';
+import DetailModal from './components/DetailModal';
 import './App.css';
 
 function App() {
@@ -17,7 +18,12 @@ function App() {
 
   const [sortKey, setSortKey] = useState('');
 
+  const [selectedTrack, setSelectedTrack] = useState(null);
+
   const handleSearch = async () => {
+    if (!searchTerm.trim()) {
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -47,6 +53,10 @@ function App() {
 
   const clearPlaylist = () => {
     setPlaylist([]); 
+  };
+
+  const closeModal = () => {
+    setSelectedTrack(null);
   };
 
   useEffect(() => {
@@ -102,8 +112,17 @@ function App() {
           />
         </div>
       </main>
+
+      {selectedTrack && (
+        <DetailModal 
+          track={selectedTrack} 
+          onClose={closeModal} 
+        />
+      )}
+
     </div>
   );
 }
 
 export default App;
+
