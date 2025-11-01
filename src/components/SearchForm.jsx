@@ -10,7 +10,7 @@ const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handle
     <form onSubmit={onSubmit}>
       <input
         type="text"
-        placeholder="Cari artis, lagu, album..."
+        placeholder="Cari lagu atau album..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         required
@@ -21,7 +21,6 @@ const SearchForm = ({ searchTerm, setSearchTerm, mediaType, setMediaType, handle
       >
         <option value="musicTrack">Lagu (Track)</option>
         <option value="album">Album</option>
-        <option value="musicArtist">Artis</option>
       </select>
       <button type="submit" disabled={loading}>
         {loading ? 'Mencari...' : 'Cari'}

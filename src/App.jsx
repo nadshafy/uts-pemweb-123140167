@@ -25,18 +25,13 @@ function App() {
     setLoading(true);
     setError(null);
 
-    let entity = '';
-    if (mediaType === 'musicTrack') entity = 'musicTrack';
-    else if (mediaType === 'album') entity = 'album';
-    else if (mediaType === 'musicArtist') entity = 'musicArtist';
+    const entity = mediaType === 'musicTrack' ? 'musicTrack' : 'album';
 
     try {
       const response = await fetch(
         `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=music&entity=${entity}&limit=20`
       );
-      if (!response.ok) {
-        throw new Error(`Gagal mengambil data (status ${response.status})`);
-      }
+      if (!response.ok) throw new Error(`Gagal mengambil data (status ${response.status})`);
       const data = await response.json();
       setResults(Array.isArray(data.results) ? data.results : []);
     } catch (err) {
@@ -53,23 +48,36 @@ function App() {
     }
   };
 
-  const removeFromPlaylist = (trackIdToRemove) => {
-    setPlaylist(playlist.filter((track) => track.trackId !== trackIdToRemove));
+  const addAlbumToPlaylist = async (album) => {
+    try {
+      const response = await fetch(
+        `https://itunes.apple.com/lookup?id=${album.collectionId}&entity=song`
+      );
+      if (!response.ok) throw new Error('Gagal mengambil track album');
+      const data = await response.json();
+      const tracks = data.results.filter(item => item.wrapperType === 'track');
+      const newTracks = tracks.filter(track => !playlist.find(p => p.trackId === track.trackId));
+      setPlaylist([...playlist, ...newTracks]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const clearPlaylist = () => {
-    setPlaylist([]);
+  const removeFromPlaylist = (id) => {
+    setPlaylist(playlist.filter(item => item.trackId !== id && item.collectionId !== id));
   };
 
-  const closeModal = () => {
-    setSelectedTrack(null);
+  const clearPlaylist = () => setPlaylist([]);
+
+  const handleTrackClick = (item) => {
+    setSelectedTrack(item);
   };
+
+  const closeModal = () => setSelectedTrack(null);
 
   useEffect(() => {
     const savedPlaylist = localStorage.getItem('myPlaylist');
-    if (savedPlaylist) {
-      setPlaylist(JSON.parse(savedPlaylist));
-    }
+    if (savedPlaylist) setPlaylist(JSON.parse(savedPlaylist));
   }, []);
 
   useEffect(() => {
@@ -77,12 +85,8 @@ function App() {
   }, [playlist]);
 
   const sortedResults = [...results].sort((a, b) => {
-    if (sortKey === 'price') {
-      return (a.trackPrice || 0) - (b.trackPrice || 0);
-    }
-    if (sortKey === 'date') {
-      return new Date(b.releaseDate) - new Date(a.releaseDate);
-    }
+    if (sortKey === 'price') return (a.trackPrice || a.collectionPrice || 0) - (b.trackPrice || b.collectionPrice || 0);
+    if (sortKey === 'date') return new Date(b.releaseDate) - new Date(a.releaseDate);
     return 0;
   });
 
@@ -102,15 +106,13 @@ function App() {
       <hr />
       <main>
         <div className="results-container">
-          {loading && <p>Loading...</p>}
-          {error && <p>{error.message}</p>}
-          {!loading && !error && results.length === 0 && searchTerm && <p>No results found</p>}
           <MusicTable
             results={sortedResults}
+            mediaType={mediaType}
             loading={loading}
             error={error}
-            addToPlaylist={addToPlaylist}
-            onTrackClick={setSelectedTrack}
+            addToPlaylist={mediaType === 'album' ? addAlbumToPlaylist : addToPlaylist}
+            onTrackClick={handleTrackClick}
           />
         </div>
         <div className="playlist-container">
