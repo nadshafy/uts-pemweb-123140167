@@ -97,6 +97,11 @@ button.danger:hover {
   transform: none;
 }
 
+button + button {
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
 form,
 div[role="sort-controls"] {
   display: flex;
@@ -117,6 +122,15 @@ select {
   background-color: #fff;
   min-width: 250px;
   transition: all 0.2s ease-in-out;
+  color: var(--text-dark);
+}
+
+select option {
+  color: var(--text-dark);
+}
+
+select:invalid {
+  color: var(--text-light);
 }
 
 input[type='text']:focus,
@@ -137,6 +151,8 @@ table {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 122, 255, 0.05);
+  table-layout: fixed;
+  word-wrap: break-word;
 }
 
 thead tr {
@@ -378,4 +394,3 @@ td[style*='cursor: pointer']:hover {
     font-size: 1.5rem;
   }
 }
-
