@@ -12,6 +12,9 @@ Studi Kasus: Digit 7 - Music Explorer
 
 [Link Vercel](https://uts-pemweb-123140167.vercel.app/)
 
+## Tampilan
+
+![tampilan](https://github.com/nadshafy/uts-pemweb-123140167/blob/main/src/assets/Screenshot_20251102_193814.png)
 
 ## Fitur-Fitur
 
