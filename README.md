@@ -1,16 +1,80 @@
-# React + Vite
+# Music Explorer - UTS Pengembangan Aplikasi Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyek ini dibuat untuk memenuhi Ujian Tengah Semester (UTS) mata kuliah IF25-22014 Pengembangan Aplikasi Web.
 
-Currently, two official plugins are available:
+Nama: Nadya Shafwah Yusuf
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+NIM: 123140167
 
-## React Compiler
+Studi Kasus: Digit 7 - Music Explorer
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Link Deployment Vercel
 
-## Expanding the ESLint configuration
+[Link Vercel](https://vercel.com/nadyas-projects-d5c995bf/uts-pemweb-123140167/ChGCyxf7xnJDvxoQ2S8F5BVeSqbd)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Fitur-Fitur
+
+Aplikasi ini mengimplementasikan semua fitur wajib dan beberapa fitur tambahan:
+
+### Fitur Wajib
+
+* Form Pencarian: Form pencarian berdasarkan keyword (input teks) dan media type (dropdown).
+
+* Tabel Hasil: Menampilkan hasil pencarian dari iTunes API dalam tabel (Artwork, Judul, Artis, Harga).
+
+* Audio Preview: Memutar sample audio langsung dari tabel hasil.
+
+* Playlist Builder: Fungsi untuk menambah lagu ke playlist dan data playlist tersimpan di localStorage.
+
+* Sorting: Mengurutkan hasil pencarian berdasarkan "Harga" atau "Tanggal Rilis".
+
+### Fitur Tambahan
+
+* Detail Modal: Menampilkan informasi lebih lengkap (Album, Genre, Rilis) saat judul lagu di tabel diklik.
+
+* Manajemen Playlist: Menghapus lagu satu per satu dari playlist.
+
+* Kosongkan Playlist: Tombol untuk menghapus semua lagu dari playlist sekaligus.
+
+* Loading & Error: Tampilan loading kustom dan penanganan error yang jelas.
+
+## Teknologi yang Digunakan
+
+* React.js (Vite): Library utama untuk membangun user interface.
+
+* React Hooks: Menggunakan useState untuk state management dan useEffect untuk lifecycle (termasuk sinkronisasi localStorage).
+
+* Fetch API: Digunakan untuk mengambil data secara asinkron dari iTunes Search API.
+
+* CSS Murni: Styling kustom dengan layout Flexbox/Grid, responsive design (media queries), dan efek glassmorphism.
+
+* localStorage: Digunakan untuk menyimpan data playlist secara persisten di browser pengguna.
+
+## Cara Instalasi dan Menjalankan
+
+Untuk menjalankan proyek ini secara lokal di komputer Anda:
+
+1. Clone repository ini:
+
+```
+git clone https://github.com/nadshafy/uts-pemweb-123140167.git
+```
+
+
+2. Masuk ke direktori proyek:
+```
+cd uts-pemweb-123140167
+```
+
+3. Install semua dependencies:
+'''
+npm install
+'''
+
+4. Jalankan development server:
+```
+npm run dev
+```
+
+5. Buka http://localhost:5173 di browser Anda.
