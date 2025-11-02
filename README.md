@@ -10,7 +10,7 @@ Studi Kasus: Digit 7 - Music Explorer
 
 ## Link Deployment Vercel
 
-[Link Vercel](https://vercel.com/nadyas-projects-d5c995bf/uts-pemweb-123140167/ChGCyxf7xnJDvxoQ2S8F5BVeSqbd)
+[Link Vercel](https://uts-pemweb-123140167.vercel.app/)
 
 
 ## Fitur-Fitur
